@@ -15,7 +15,7 @@ class M_survey extends CI_Model {
 
 	function cekResponden($where)
 	{
-		return $this->db->get_where('tb_hasil', $where);
+		return $this->db->get_where('tb_detil_responden', $where);
 	}
 
 	function save($table,$data)

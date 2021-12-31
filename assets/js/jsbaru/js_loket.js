@@ -11,6 +11,7 @@ $(document).on('click', '.modal_edit', function(event) {
 	})
 	.done(function(data) {
 		$('input[name="nama_loket"]').val(data.nama_loket)
+		$('#kategori_instansi_id2').val(data.kategori_instansi_id);
 	})
 	.fail(function(data) {
 		alert("error");

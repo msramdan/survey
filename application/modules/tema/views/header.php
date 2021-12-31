@@ -42,6 +42,8 @@
    <script src="<?php echo base_url().'assets/'?>bower_components/jquery/dist/jquery.min.js"></script>
    <script src="<?php echo base_url().'assets/'?>apexcharts.js"></script>
    <script src="<?php echo base_url().'assets/js/' ?>sweetalert2@10.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
  </head>
  <body class="hold-transition skin-purple-light sidebar-mini">
   <div class="wrapper">

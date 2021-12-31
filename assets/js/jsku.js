@@ -9,6 +9,13 @@ var selesai = document.getElementById('selesai');
 /*deklarasi variable*/
 var id_soal 	= document.getElementById('id_soal');
 var idreg 		= document.getElementById('noreg');
+var nama 		= document.getElementById('nama');
+var umur 		= document.getElementById('umur');
+var jk 				= document.getElementById('jk');
+var pekerjaan 		= document.getElementById('pekerjaan');
+var pendidikan 		= document.getElementById('pendidikan');
+var bidang_instansi_id 		= document.getElementById('bidang_instansi_id');
+
 
 /*label untuk checkbox*/
 var a 			= document.getElementById('a');
@@ -53,7 +60,8 @@ function soal(){
 		});
 	})
 	.fail(function(data) {
-		location.href = base+"survey/saran/"+idreg.value;
+		// location.href = base+"survey/saran/"+idreg.value+'/'+nama.value+'/'+umur.value+'/'+jk.value+'/'+pekerjaan.value+'/'+pendidikan.value+'/'+bidang_instansi_id.value;
+			location.href = base+"survey/saran/"+idreg.value+'?nama='+nama.value+'&umur='+umur.value+'&jk='+jk.value+'&pekerjaan='+pekerjaan.value+'&pendidikan='+pendidikan.value+'&bidang_instansi_id='+bidang_instansi_id.value;
 	});
 }
 

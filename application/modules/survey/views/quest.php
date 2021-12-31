@@ -26,7 +26,6 @@
   [class*="col-"] {
     width: 100%;
   }
-}
 </style>
 <?= $this->load->view('sesi/header') ?>
 
@@ -44,7 +43,7 @@
              </div>
              <div class="card-body">
                <p class="font-italic">
-                Pilihan :
+                Pilihan : 
               </p>
               <ul>
                <div class="row">
@@ -101,6 +100,13 @@
 <input type="hidden" id="noreg" value="<?php echo $noreg ?>">
 <input type="hidden" id="n_soal" value="<?php echo $nsoal ?>">
 <input type="hidden" id="id_soal" value="<?php echo $soal[0]->id_soal ?>">
+
+<input type="hidden" id="nama" value="<?php echo $nama ?>">
+<input type="hidden" id="umur" value="<?php echo $umur ?>">
+<input type="hidden" id="jk" value="<?php echo $jk ?>">
+<input type="hidden" id="pekerjaan" value="<?php echo $pekerjaan ?>">
+<input type="hidden" id="pendidikan" value="<?php echo $pendidikan ?>">
+<input type="hidden" id="bidang_instansi_id" value="<?php echo $bidang_instansi_id ?>">
 </main>
 <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
 <div id="preloader"></div>

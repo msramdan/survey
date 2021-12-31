@@ -13,23 +13,13 @@ class Loket extends MY_Controller {
 		if ($this->session->userdata('ses_user') == null) {
 			redirect('satpam','refresh');
 		}
-
-		if ($bulan == 'setahun') {
-			$tahun = date('Y');
-		}
-
 		$data = [
-			'title'			=> 'Monitoring Kepuasan',
-			'sub'			=> 'Loket Pelayanan',
-			'icon'			=> 'fa-user-circle',
-			'loket'			=> $this->_get_loket($bulan,$tahun),
+			'title'			=> 'Instansi',
+			'sub'			=> 'Instansi',
+			'icon'			=> 'fa-user-plus',
 			'menu'			=> 'loket',
-			'f_bulan'		=> $bulan,
-			'f_tahun'		=> $tahun,
-			'bulan'			=> $this->M_master->getall('bulan')->result(),
-			'tahun'			=> $this->M_master->getall('tahun')->result(),
+			'kategori_instansi' => $this->M_master->getall('tb_kategori_instansi')->result(),
 		];
-
 		$this->template->load('tema/index','loket',$data);
 	}
 
@@ -51,7 +41,8 @@ class Loket extends MY_Controller {
 
 		$data = [
 			'id_loket'		=> uniqid(),
-			'nama_loket'	=> $this->input->post('nama')
+			'nama_loket'	=> $this->input->post('nama'),
+			'kategori_instansi_id'	=> $this->input->post('kategori_instansi_id')
 		];
 
 		$cek = $this->M_master->input('tb_loket',$data);
@@ -73,7 +64,8 @@ class Loket extends MY_Controller {
 		}
 
 		$data = [
-			'nama_loket'	=> $this->input->post('nama_loket')
+			'nama_loket'	=> $this->input->post('nama_loket'),
+			'kategori_instansi_id'	=> $this->input->post('kategori_instansi_id')
 		];
 
 		$where = [
@@ -165,68 +157,49 @@ class Loket extends MY_Controller {
 		$this->template->load('tema/index','pilihan_loket',$data);
 	}
 
-	/*PRIVATE FUNCTION*/
-	//loket
-	private function _get_loket($bulan,$tahun)
-	{
-		$loket = $this->M_master->getall('tb_loket')->result();
-		$no = 1;
-		foreach($loket as $loket)
-		{
-			$data[$no] = [
-				'nama_loket'	=> $loket->nama_loket,
-				'id_loket'		=> $loket->id_loket,
-				'responden'		=> $this->M_loket->get_responden_by_loket($loket->id_loket,$bulan,$tahun)->num_rows(),
-				'nilai'			=> $this->_get_nilai_loket($loket->id_loket,$bulan,$tahun)
-			];
-			$no++;
-		}
-		sort($data);
-		return $data;
-	}
+	// private function _get_nilai_loket($id,$bulan,$tahun)
+	// {
+	// 	$data 		= $this->M_loket->get_nilai_loket($id,$bulan,$tahun)->result();
 
-	private function _get_nilai_loket($id,$bulan,$tahun)
-	{
-		$data 		= $this->M_loket->get_nilai_loket($id,$bulan,$tahun)->result();
+	// 	$responden 	= $this->M_loket->get_responden_by_loket($id,$bulan,$tahun)->num_rows(); //100
+	// 	$total_soal	= $this->M_master->getall('tb_pertanyaan')->num_rows(); 
 
-		$responden 	= $this->M_loket->get_responden_by_loket($id,$bulan,$tahun)->num_rows();
-		$total_soal	= $this->M_master->getall('tb_pertanyaan')->num_rows();
+	// 	$no = 1;
+	// 	$total = 0;
+	// 	foreach($data as $data)
+	// 	{
+	// 		if ($data->jawaban == 'd') {
+	// 			$n = 4;;
+	// 		}
+	// 		else if($data->jawaban == 'c')
+	// 		{
+	// 			$n = 3;
+	// 		}
+	// 		else if ($data->jawaban == 'b') {
+	// 			$n = 2;
+	// 		}
+	// 		else
+	// 		{
+	// 			$n = 1;
+	// 		}
 
-		$no = 1;
-		$total = 0;
-		foreach($data as $data)
-		{
-			if ($data->jawaban == 'd') {
-				$n = 4;;
-			}
-			else if($data->jawaban == 'c')
-			{
-				$n = 3;
-			}
-			else if ($data->jawaban == 'b') {
-				$n = 2;
-			}
-			else
-			{
-				$n = 1;
-			}
-			$nilai[$no] = [
-				'jawaban' => $n
-			];
-			$total += $nilai[$no]['jawaban'];
-			$no++;
-		}
+	// 		$nilai[$no] = [
+	// 			'jawaban' => $n
+	// 		];
+	// 		$total += $nilai[$no]['jawaban'];
+	// 		$no++;
+	// 	}
 
-		$nilai_max = $total_soal*4*$responden;
-		if ($responden > 0) {
-			$kepuasan = ($total/$nilai_max)*100;
-		}
-		else{
-			$kepuasan = 0;
-		}
+	// 	$nilai_max = $total_soal*4*$responden;
+	// 	if ($responden > 0) {
+	// 		$kepuasan = ($total/$nilai_max)*100;
+	// 	}
+	// 	else{
+	// 		$kepuasan = 0;
+	// 	}
 
-		return $kepuasan;
-	}
+	// 	return $kepuasan;
+	// }
 
 }
 

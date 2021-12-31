@@ -37,6 +37,12 @@
             </p>
             <div class="row">
               <input type="hidden" id="id_responden" value="<?php echo $responden ?>">
+              <input type="hidden" id="nama" value="<?php echo $nama ?>">
+              <input type="hidden" id="umur" value="<?php echo $umur ?>">
+              <input type="hidden" id="jk" value="<?php echo $jk ?>">
+              <input type="hidden" id="pekerjaan" value="<?php echo $pekerjaan ?>">
+              <input type="hidden" id="pendidikan" value="<?php echo $pendidikan ?>">
+              <input type="hidden" id="bidang_instansi_id" value="<?php echo $bidang_instansi_id ?>">
               <textarea name="saran" id="tx_saran" class="form-control" rows="5"></textarea>
             </div>
             <p>

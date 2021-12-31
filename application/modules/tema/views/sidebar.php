@@ -1,6 +1,7 @@
 <?php 
 $menu_admin = ['pertanyaan', 'publish','saran'];
 $menu_news  = ['news', 'faq'];
+$menu_instansi = ['loket', 'kategori_instansi','bidang_instansi'];
 ?>
 
 
@@ -47,20 +48,27 @@ $menu_news  = ['news', 'faq'];
           <li <?php echo $menu=='faq' ? 'class="active"' : '' ?>><a href="<?php echo site_url('news/FAQ') ?>"><i class="fa  fa-question"></i>FAQ</a></li>
         </ul>
       </li>
-      <li <?php echo $menu=='loket' ? 'class="active"' : '' ?>>
-        <a href="<?php echo site_url('loket') ?>">
-          <i class="fa fa-user-circle fa-black"></i>
-          <span>Layanan</span>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-bank fa-black"></i>
+          <span>Daftar Instansi</span>
         </a>
+        <ul id="menu_surat" class="treeview-menu" <?php if(in_array($menu, $menu_instansi , true)) {echo 'style="display : block"';} ?>>
+        <li <?php echo $menu=='kategori_instansi' ? 'class="active"' : '' ?>><a href="<?php echo site_url('kategori_instansi') ?>"><i class="fa fa-circle-o"></i>Kategori Instansi</a></li>  
+        <li <?php echo $menu=='loket' ? 'class="active"' : '' ?>><a href="<?php echo site_url('loket') ?>"><i class="fa fa-circle-o"></i>Instansi</a></li>
+          <li <?php echo $menu=='bidang_instansi' ? 'class="active"' : '' ?>><a href="<?php echo site_url('bidang_instansi') ?>"><i class="fa fa-circle-o"></i>Bidang Instansi</a></li>
+          
+        </ul>
       </li>
-      <?php if ($menu == 'Dashboard'): ?>
+      </li>
+      <!-- <?php if ($menu == 'Dashboard'): ?>
         <li>
           <a href="#" id="cetak_laporan_akhir">
             <i class="fa fa-print fa-black"></i>
             <span>Cetak Laporan</span>
           </a>
         </li>
-      <?php endif ?>
+      <?php endif ?> -->
       
     </section>
     <!-- /.sidebar -->
