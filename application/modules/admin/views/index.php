@@ -16,27 +16,24 @@ body {
   <div class="box" style="margin-top: -10px">
     <div class="box-body">
       <div class="form-group row">
-        <!-- <div class="col-sm-3 col-xs-12 text-right" style="margin-top: 0.3em">
+        <div class="col-sm-3 col-xs-12 text-right" style="margin-top: 0.3em">
          <select name="bulan" class="form-control" required>
-           <option value="">Bulan..</option>
-           <option <?php echo $f_bulan==true && $f_bulan == 'setahun' ? 'selected' : ''?> value="setahun">Setahun</option>
+           <!-- <option <?php echo $f_bulan==true && $f_bulan == 'setahun' ? 'selected' : ''?> value="setahun">Setahun</option> -->
            <?php foreach ($bulan as $b): ?>
              <option <?php echo $f_bulan==true && $f_bulan == $b->id_bulan ? 'selected' : ''?>  value="<?php echo $b->id_bulan ?>"><?php echo $b->bulan ?></option>}
            <?php endforeach ?>
          </select>
-       </div> -->
-       <!-- <div class="col-sm-3 col-xs-12 text-right" style="margin-top: 0.3em">
+       </div>
+       <div class="col-sm-3 col-xs-12 text-right" style="margin-top: 0.3em">
          <select name="tahun" class="form-control" required>
           <option value="">Tahun..</option>
           <?php foreach ($tahun as $t): ?>
            <option <?php echo $f_tahun==true && $f_tahun == $t->tahun ? 'selected' : ''?> value="<?php echo $t->tahun ?>"><?php echo $t->tahun ?></option>}
          <?php endforeach ?>
        </select>
-     </div> -->
-     
+     </div>
      <div class="col-sm-3 col-xs-12" style="margin-top: 0.3em">
        <button id="btn_filter_index" type="submit" class="btn bg-purple"><i class="fa fa-filter"></i> Filter</button>
-       <button id="btn_filter_index" type="submit" class="btn bg-default"><i class="fa fa-print"></i> Cetak</button>
      </div>
    </div>
  </div>
@@ -81,7 +78,7 @@ body {
         <div class="inner">
           <h3><?php echo $s_publish ?></h3>
 
-          <p>Instansi <strong>Pelayanan</strong></p>
+          <p>Loket <strong>Pelayanan</strong></p>
         </div>
         <div class="icon">
           <i class="fa fa-star"></i>

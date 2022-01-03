@@ -18,85 +18,9 @@ class Admin extends MY_Controller {
 	}
 
 	/*FILTER*/
-	function index($bulan = 'setahun',$tahun = false)
+	function index()
 	{
-		if ($this->session->userdata('ses_user') == null) {
-			redirect('satpam','refresh');
-		}
-
-		if ($bulan == 'setahun') {
-			$tahun = date('Y');
-		}
-
-		$data = [
-			'title'			=> 'Dashboard',
-			'sub'			=> '',
-			'tahun'			=> $this->M_master->getall('tahun')->result(),
-			'bulan'			=> $this->M_master->getall('bulan')->result(),
-			'icon'			=> 'clip-home-3',
-			'f_bulan'		=> $bulan,
-			'f_tahun'		=> $tahun,
-			'soal'			=> $this->M_admin->getSoal()->result(),
-			'kepuasan' 		=> $this->_get_kepuasan_filter($bulan,$tahun),
-			'pendidikan'	=> $this->_get_pendidikan_filter($bulan,$tahun),
-			'pekerjaan'		=> $this->_get_pekerjaan_filter($bulan,$tahun),
-			'pengunjung' 	=> $this->M_master->get_responden_filter($bulan,$tahun),
-			'hasil'			=> $this->_get_hasil_filter($bulan,$tahun),
-			'responden'		=> $this->M_master->get_responden_filter($bulan,$tahun),
-			's_publish'		=> $this->M_master->getall('tb_loket')->num_rows(),
-			'b_publish'		=> $this->M_admin->get_blm_publish($bulan,$tahun)->num_rows(),
-			'menu'			=> 'Dashboard'
-		];
-
-		//menentukan tingkat kepuasan
-		$kepuasan = $data['kepuasan'];
-		if ($kepuasan >88.31){
-			$mutu = 'A';
-			$index = "Sangat Baik";
-		}else if($kepuasan > 76.61){
-			$mutu = 'B';
-			$index = 'Baik';
-		}else if($kepuasan > 65.00){
-			$mutu = 'C';
-			$index = 'Kurang Baik';
-		}
-		else if($kepuasan > 25.00 ) {
-			$mutu = 'D';
-			$index = 'Tidak Baik';
-		}
-		else {
-			$mutu = null;
-			$index = null;
-		}
-		$data['tingkat_kepuasan']	= $index;
-		$data['mutu'] 				= $mutu;
-		$data['sub'] 				= 'Statistik';
-		 
-
-		//hasilnya untuk index kepuasan per soal
-		$soal = $this->M_master->getall('tb_pertanyaan')->result();
-		$hasil = array();
-		$no = 1;
-		foreach ($soal as $v) {
-			$hasil[$no] = [
-				'kepuasan'	=> $this->_get_nilai_filter($v->id_soal,$bulan,$tahun),
-				'id_soal'	=> $v->id_soal,
-				'kategori'	=> $v->kategori,
-				'soal'		=> $v->soal,
-				'sp'		=> $this->_get_rataan_filter($v->id_soal,'d', $bulan,$tahun),
-				'p'			=> $this->_get_rataan_filter($v->id_soal,'c', $bulan,$tahun),
-				'tp'		=> $this->_get_rataan_filter($v->id_soal,'b', $bulan,$tahun),
-				'kec'		=> $this->_get_rataan_filter($v->id_soal,'a', $bulan,$tahun),
-			];
-			$no++;
-		}
-		sort($hasil);
-
-		$data_short = $this->_get_prioritas($hasil);
-		sort($data_short);
-		$data['rekap'] 	= $data_short;
-		//echo json_encode($data['kepuasan']);
-		$this->template->load('tema/index','index',$data);
+		redirect('home','refresh');
 	} 
 
 	/*ADMIN*/
@@ -357,7 +281,7 @@ class Admin extends MY_Controller {
 	function log_out()
 	{
 		session_destroy();
-		redirect('survey','refresh');
+		redirect('survey/admin','refresh');
 	}
 
 	/*cetak*/

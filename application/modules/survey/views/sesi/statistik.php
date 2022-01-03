@@ -38,6 +38,8 @@
     background: #F8F8F8;
   }
 </style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 <section id="statistik" style="margin-top: -20px;">
   <div class="container">
     <div class="row">
@@ -103,10 +105,10 @@
                   <table id="" class="table table-bordered table-striped">
                     <thead>
                       <tr>
-                        <th>No</th>
-                        <th>OPD</th>
-                        <th>IKM</th>
-                        <th>Nilai</th>
+                        <th style="width: 10%;">No</th>
+                        <th style="width: 50%;">Instansi</th>
+                        <th style="width: 20%;">Jumlah Responden</th>
+                        <th style="width: 20%;">Kepuasan (%)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -115,12 +117,73 @@
                       ?>
                       <?php
                       $no = 1;
-                      foreach ($data_instansi->result() as $di) { ?>
+                      foreach ($data_instansi->result() as $loket) {
+              $jml = $this->db->query("SELECT tb_detil_responden.*, tb_bidang_instansi.instansi_id FROM tb_detil_responden
+              join tb_bidang_instansi on tb_bidang_instansi.bidang_instansi_id =tb_detil_responden.bidang_instansi_id where instansi_id='$loket->id_loket'");
+              $jml_res = $jml->num_rows();
+                        
+                        ?>
+                      
                         <tr>
                           <td><?= $no++ ?></td>
-                          <td><a href="skpd-setda"><b><?= $di->nama_loket ?></b></a></td>
-                          <td> 84.11</td>
-                          <td>B (Baik)</td>
+                          <td><a id="view_data" href="#exampleModal" data-toggle="modal"
+                          data-nama_loket="<?= $loket->nama_loket ?>"
+                          data-id_loket="<?= $loket->id_loket ?>"><b><?= $loket->nama_loket ?></b></a></td>
+                          <td><a><?php echo $jml_res ?></a></td>
+                          <?php
+              
+
+							//persentase nilai
+							$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
+							$total_soal = $q_total_soal->num_rows();
+
+							  $bidang_instansi = $this->db->query("SELECT tb_detil_responden.bidang_instansi_id,tb_bidang_instansi.instansi_id FROM tb_detil_responden
+								join tb_bidang_instansi on tb_bidang_instansi.bidang_instansi_id =tb_detil_responden.bidang_instansi_id
+								where instansi_id='$loket->id_loket' GROUP BY bidang_instansi_id")->result();
+							
+
+							$total = 0;
+							$x = 0;
+							$total_instansi = 0;
+							foreach ($bidang_instansi as $n) {
+									$jml_res_bidang_q = $this->db->query("SELECT * FROM tb_detil_responden where bidang_instansi_id='$n->bidang_instansi_id'");
+									$jml_res_bidang = $jml_res_bidang_q->num_rows();
+
+									$nilai_bidang = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil
+									join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id where bidang_instansi_id='$n->bidang_instansi_id'")->result();
+									$nilai_total_bidang = 0;
+									$nilai_fix_bidang = 0;
+									$x_bidang = 1;
+									foreach ($nilai_bidang as $b) {
+										if ($b->jawaban == 'd') {
+											$n = 4;;
+										} else if ($b->jawaban == 'c') {
+											$n = 3;
+										} else if ($b->jawaban == 'b') {
+											$n = 2;
+										} else {
+											$n = 1;
+										}
+										$nilai[$x_bidang] = [
+											'jawaban' => $n
+										];
+										$nilai_total_bidang += $nilai[$x_bidang]['jawaban'];
+										$x_bidang++;
+									}
+									$nilai_max_bidang = $total_soal * 4 * $jml_res_bidang;
+
+									if ($jml_res_bidang > 0) {
+										$nilai_fix_bidang = ($nilai_total_bidang / $nilai_max_bidang) * 100;
+									} else {
+										$nilai_fix_bidang = 0;
+									}
+									$x++;
+									$total = $total + $nilai_fix_bidang;
+									$total_instansi = $total / $x;
+							}
+							
+							?>
+							<td><a style="color: black;"><?php echo  round($total_instansi, 2)  ?> %</a></td>
                         </tr>
                       <?php } ?>
                     </tbody>
@@ -134,6 +197,36 @@
       </div>
     </div>
 
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel"><span id="nama_loket"></span></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Bidang Pelayanan</th>
+                  <th scope="col">Jumlah Responden</th>
+                  <th scope="col">Kepuasan (%)</th>
+                </tr>
+              </thead>
+              <tbody id="data_table_bidang">
+              </tbody>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 </section>
 
 <?php
@@ -198,7 +291,7 @@ if (count($pekerjaan) > 0) {
 <script>
   var options = {
     title: {
-      text: 'Statistik Pilihan Responden per kategori soal'
+      text: 'Statistik / kategori soal'
     },
     chart: {
       type: 'bar'
@@ -220,7 +313,7 @@ if (count($pekerjaan) > 0) {
   /*pie chart pendidikan*/
   var options = {
     title: {
-      text: 'responden berdasarkan pendidikan'
+      text: 'Responden berdasarkan pendidikan'
     },
     series: <?php echo $j_pend == true ? json_encode($j_pend) : [] ?>,
     chart: {
@@ -247,7 +340,7 @@ if (count($pekerjaan) > 0) {
   /*pie chart pekerjaan*/
   var options = {
     title: {
-      text: 'responden berdasarkan pekerjaan'
+      text: 'Responden berdasarkan pekerjaan'
     },
     series: <?php echo $j_pek == true ? json_encode($j_pek) : [] ?>,
     chart: {
@@ -270,4 +363,23 @@ if (count($pekerjaan) > 0) {
 
   var chart = new ApexCharts(document.querySelector("#piepek"), options);
   chart.render();
+</script>
+
+<script type="text/javascript">
+  $(document).on('click', '#view_data', function() {
+    var nama_loket = $(this).data('nama_loket');
+    var id = $(this).data('id_loket');
+    $('#exampleModal #nama_loket').text(nama_loket);
+    $.ajax({
+      url: "<?= base_url() ?>survey/modal_data",
+      method: "POST",
+      data: {id:id},
+      dataType: '',
+      success: function(data) {
+        console.log(data)
+        $('#exampleModal #data_table_bidang').html(data);
+      }
+    })
+
+  })
 </script>

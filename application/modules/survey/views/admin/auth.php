@@ -13,19 +13,19 @@
     					<div class="address">
     						<i class="icofont-google-map"></i>
     						<h4>Alamat</h4>
-    						<p>Jl. Nama Jalan No. 01 Kecamatan Kota Provinsi</p>
+    						<p>Jalan Soekarno - Hatta No. 1</p>
     					</div>
 
     					<div class="email">
     						<i class="icofont-envelope"></i>
     						<h4>Email</h4>
-    						<p>alamatemail@gmail.com</p>
+    						<p>info@tualkota.go.id</p>
     					</div>
 
     					<div class="phone">
     						<i class="icofont-phone"></i>
     						<h4>Telp.</h4>
-    						<p>+62 0123456789</p>
+    						<p>0916 - 2520525</p>
     					</div>
 
     				</div>

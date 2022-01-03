@@ -74,6 +74,7 @@
 							<th class="text-left">Instansi</th>
 							<th class="text-left">Jumlah Respond</th>
 							<th class="text-left">Kepuasan (%)</th>
+							<th class="text-left">Cetak Laporan</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -100,69 +101,72 @@
 								<td><a style="color: black;"><?php echo $jml_res ?></a></td>
 								<?php
 								//persentase nilai
-									if (isset($_GET['startDate']) && isset($_GET['endDate'])){
-										$dari = $_GET['startDate'];
-										$ke = $_GET['endDate'];
-										$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
-										$total_soal = $q_total_soal->num_rows();
-										$nilai_persentase = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id
+								if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+									$dari = $_GET['startDate'];
+									$ke = $_GET['endDate'];
+									$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
+									$total_soal = $q_total_soal->num_rows();
+									$nilai_persentase = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id
 										where tb_hasil.created_date >= '$dari' AND tb_hasil.created_date <= '$ke' And bidang_instansi_id='$row->bidang_instansi_id'")->result();
-										$total = 0;
-										$x = 1;
-										foreach ($nilai_persentase as $n) {
-											if ($n->jawaban == 'd') {
-												$n = 4;;
-											} else if ($n->jawaban == 'c') {
-												$n = 3;
-											} else if ($n->jawaban == 'b') {
-												$n = 2;
-											} else {
-												$n = 1;
-											}
-											$nilai[$x] = [
-												'jawaban' => $n
-											];
-											$total += $nilai[$x]['jawaban'];
-											$x++;
+									$total = 0;
+									$x = 1;
+									foreach ($nilai_persentase as $n) {
+										if ($n->jawaban == 'd') {
+											$n = 4;;
+										} else if ($n->jawaban == 'c') {
+											$n = 3;
+										} else if ($n->jawaban == 'b') {
+											$n = 2;
+										} else {
+											$n = 1;
 										}
-										$nilai_max = $total_soal * 4 * $jml_res;
-										$nilai_max = $total_soal * 4 * $jml_res;
-										if ($jml_res > 0) { ?>
-											<td><a style="color: black;"><?php echo round(($total/$nilai_max)*100,2)?> % </a></td>
-										<?php } else { ?> 
-											<td><a style="color: black;">0 %</a></td>
-										<?php } 
-									}else{
-										$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
-										$total_soal = $q_total_soal->num_rows();
-										$nilai_persentase = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id where bidang_instansi_id='$row->bidang_instansi_id'")->result();
-										$total = 0;
-										$x = 1;
-										foreach ($nilai_persentase as $n) {
-											if ($n->jawaban == 'd') {
-												$n = 4;;
-											} else if ($n->jawaban == 'c') {
-												$n = 3;
-											} else if ($n->jawaban == 'b') {
-												$n = 2;
-											} else {
-												$n = 1;
-											}
-											$nilai[$x] = [
-												'jawaban' => $n
-											];
-											$total += $nilai[$x]['jawaban'];
-											$x++;
+										$nilai[$x] = [
+											'jawaban' => $n
+										];
+										$total += $nilai[$x]['jawaban'];
+										$x++;
+									}
+									$nilai_max = $total_soal * 4 * $jml_res;
+									$nilai_max = $total_soal * 4 * $jml_res;
+									if ($jml_res > 0) { ?>
+										<td><a style="color: black;"><?php echo round(($total / $nilai_max) * 100, 2) ?> % </a></td>
+									<?php } else { ?>
+										<td><a style="color: black;">0 %</a></td>
+									<?php }
+								} else {
+									$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
+									$total_soal = $q_total_soal->num_rows();
+									$nilai_persentase = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id where bidang_instansi_id='$row->bidang_instansi_id'")->result();
+									$total = 0;
+									$x = 1;
+									foreach ($nilai_persentase as $n) {
+										if ($n->jawaban == 'd') {
+											$n = 4;;
+										} else if ($n->jawaban == 'c') {
+											$n = 3;
+										} else if ($n->jawaban == 'b') {
+											$n = 2;
+										} else {
+											$n = 1;
 										}
-										$nilai_max = $total_soal * 4 * $jml_res;
-										if ($jml_res > 0) { ?>
-											<td><a style="color: black;"><?php echo round(($total/$nilai_max)*100,2)?> % </a></td>
-										<?php } else { ?> 
-											<td><a style="color: black;">0 %</a></td>
-										<?php }  
-									} ?>
-
-								
+										$nilai[$x] = [
+											'jawaban' => $n
+										];
+										$total += $nilai[$x]['jawaban'];
+										$x++;
+									}
+									$nilai_max = $total_soal * 4 * $jml_res;
+									if ($jml_res > 0) { ?>
+										<td><a style="color: black;"><?php echo round(($total / $nilai_max) * 100, 2) ?> % </a></td>
+									<?php } else { ?>
+										<td><a style="color: black;">0 %</a></td>
+								<?php }
+								} ?>
+								<?php if (isset($_GET['startDate']) && isset($_GET['endDate'])) { ?>
+									<td><a href="<?= base_url() ?>bidang_instansi/pdf/<?php echo $row->bidang_instansi_id ?>/<?= $_GET['startDate'] ?>/<?= $_GET['endDate'] ?>" style="color: black;" target="_blank"><i class="fa fa-print"></i> Cetak</a></td>
+								<?php } else { ?>
+									<td><a href="<?= base_url() ?>bidang_instansi/pdf/<?php echo $row->bidang_instansi_id ?>" style="color: black;" target="_blank"><i class="fa fa-print"></i> Cetak</a></td>
+								<?php } ?>
 							</tr>
 						<?php endforeach ?>
 					</tbody>

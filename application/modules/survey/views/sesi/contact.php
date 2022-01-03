@@ -2,8 +2,8 @@
   <div class="container">
 
    <div class="section-title" data-aos="fade-up">
-    <h2>PANITIA PELAKSANA SURVEY KEPUASAN MASYARAKAT </h2>
-    <p>NAMA INSTANSI</p><br/>
+    <h6>PANITIA PELAKSANA SURVEY KEPUASAN MASYARAKAT </h6>
+    <p>PEMERINTAH KOTA TUAL</p><br/>
   </div>
 
   <div class="row" style="margin-top: -60px;">
@@ -12,7 +12,7 @@
         <div class="address" style="margin-top: 30px;">
           <i class="icofont-google-map"></i>
           <h4>Alamat</h4>
-          <p>Jl. Nama Jalan No. 01 Kecamatan Kota Provinsi</p>
+          <p>Jalan Soekarno - Hatta No. 1</p>
         </div>
       </div>
     </div>
@@ -21,7 +21,7 @@
         <div class="email">
           <i class="icofont-envelope"></i>
           <h4>Email</h4>
-          <p>alamatemail@gmail.com</p>
+          <p>info@tualkota.go.id</p>
         </div>
       </div>
     </div>
@@ -30,7 +30,7 @@
         <div class="phone">
           <i class="icofont-phone"></i>
           <h4>Telp.</h4>
-          <p>+62 0123456789</p>
+          <p>0916 - 2520525</p>
         </div>
 
       </div>

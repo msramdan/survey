@@ -12,9 +12,131 @@ class Survey extends MY_Controller
 	}
 	public function index()
 	{
+			$kira = array();
+					$data_loket = $this->db->query("SELECT tb_loket.*,tb_kategori_instansi.nama_kategori_instansi from tb_loket
+							 join tb_kategori_instansi on tb_kategori_instansi.kategori_instansi_id = tb_loket.kategori_instansi_id")->result();
+					$no = 1;
+					foreach ($data_loket as $loket) : ?>
+						<?php if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+							$dari = $_GET['startDate'];
+							$ke = $_GET['endDate'];
+							$jml = $this->db->query("SELECT tb_detil_responden.*, tb_bidang_instansi.instansi_id FROM tb_detil_responden
+							join tb_bidang_instansi on tb_bidang_instansi.bidang_instansi_id =tb_detil_responden.bidang_instansi_id where created_date >= '$dari' AND created_date <= '$ke' AND instansi_id='$loket->id_loket'");
+							$jml_res = $jml->num_rows();
+						} else {
+							$jml = $this->db->query("SELECT tb_detil_responden.*, tb_bidang_instansi.instansi_id FROM tb_detil_responden
+						    join tb_bidang_instansi on tb_bidang_instansi.bidang_instansi_id =tb_detil_responden.bidang_instansi_id where instansi_id='$loket->id_loket'");
+							$jml_res = $jml->num_rows();
+						} ?>
+							<?php
+							//persentase nilai
+							$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
+							$total_soal = $q_total_soal->num_rows();
+
+							if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+								$bidang_instansi = $this->db->query("SELECT tb_detil_responden.bidang_instansi_id,tb_bidang_instansi.instansi_id FROM tb_detil_responden
+								join tb_bidang_instansi on tb_bidang_instansi.bidang_instansi_id =tb_detil_responden.bidang_instansi_id
+								where created_date >= '$dari' AND created_date <= '$ke' AND instansi_id='$loket->id_loket' GROUP BY bidang_instansi_id")->result();
+							}else{
+								$bidang_instansi = $this->db->query("SELECT tb_detil_responden.bidang_instansi_id,tb_bidang_instansi.instansi_id FROM tb_detil_responden
+								join tb_bidang_instansi on tb_bidang_instansi.bidang_instansi_id =tb_detil_responden.bidang_instansi_id
+								where instansi_id='$loket->id_loket' GROUP BY bidang_instansi_id")->result();
+							}
+							
+
+							$total = 0;
+							$x = 0;
+							$total_instansi = 0;
+							foreach ($bidang_instansi as $n) {
+								//jml respond bidang instansi
+								if (isset($_GET['startDate']) && isset($_GET['endDate'])) {
+									$dari = $_GET['startDate'];
+									$ke = $_GET['endDate'];
+									$jml_res_bidang_q = $this->db->query("SELECT * FROM tb_detil_responden where created_date >= '$dari' AND created_date <= '$ke' AND bidang_instansi_id='$n->bidang_instansi_id'");
+									$jml_res_bidang = $jml_res_bidang_q->num_rows();
+
+									$nilai_bidang = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil
+									join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id where tb_hasil.created_date >= '$dari' AND tb_hasil.created_date <= '$ke' AND bidang_instansi_id='$n->bidang_instansi_id'")->result();
+									$nilai_total_bidang = 0;
+									$nilai_fix_bidang = 0;
+									$x_bidang = 1;
+									foreach ($nilai_bidang as $b) {
+										if ($b->jawaban == 'd') {
+											$n = 4;;
+										} else if ($b->jawaban == 'c') {
+											$n = 3;
+										} else if ($b->jawaban == 'b') {
+											$n = 2;
+										} else {
+											$n = 1;
+										}
+										$nilai[$x_bidang] = [
+											'jawaban' => $n
+										];
+										$nilai_total_bidang += $nilai[$x_bidang]['jawaban'];
+										$x_bidang++;
+									}
+									$nilai_max_bidang = $total_soal * 4 * $jml_res_bidang;
+
+									if ($jml_res_bidang > 0) {
+										$nilai_fix_bidang = ($nilai_total_bidang / $nilai_max_bidang) * 100;
+									} else {
+										$nilai_fix_bidang = 0;
+									}
+									$x++;
+									$total = $total + $nilai_fix_bidang;
+									$total_instansi = $total / $x;
+									$kira[] = $total_instansi;
+								} else {
+									$jml_res_bidang_q = $this->db->query("SELECT * FROM tb_detil_responden where bidang_instansi_id='$n->bidang_instansi_id'");
+									$jml_res_bidang = $jml_res_bidang_q->num_rows();
+
+									$nilai_bidang = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil
+									join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id where bidang_instansi_id='$n->bidang_instansi_id'")->result();
+									$nilai_total_bidang = 0;
+									$nilai_fix_bidang = 0;
+									$x_bidang = 1;
+									foreach ($nilai_bidang as $b) {
+										if ($b->jawaban == 'd') {
+											$n = 4;;
+										} else if ($b->jawaban == 'c') {
+											$n = 3;
+										} else if ($b->jawaban == 'b') {
+											$n = 2;
+										} else {
+											$n = 1;
+										}
+										$nilai[$x_bidang] = [
+											'jawaban' => $n
+										];
+										$nilai_total_bidang += $nilai[$x_bidang]['jawaban'];
+										$x_bidang++;
+									}
+									$nilai_max_bidang = $total_soal * 4 * $jml_res_bidang;
+
+									if ($jml_res_bidang > 0) {
+										$nilai_fix_bidang = ($nilai_total_bidang / $nilai_max_bidang) * 100;
+									} else {
+										$nilai_fix_bidang = 0;
+									}
+									$x++;
+									$total = $total + $nilai_fix_bidang;
+									$total_instansi = $total / $x;
+									$kira[] = $total_instansi;
+								}
+							
+							}
+							
+							?>
+							
+					<?php endforeach ?>
+					<?php
+						$jml = count($kira);
+						$sum = array_sum($kira);
+
 		$this->_auto_reset();
 		$data = [
-			'kepuasan' 		=> $this->_get_kepuasan(),
+			'kepuasan' 		=>round($sum / $jml , 2),
 			'loket'			=> $this->M_master->getall('tb_loket')->num_rows(),
 			'pendidikan'	=> $this->_get_pendidikan(),
 			'pekerjaan'		=> $this->_get_pekerjaan(),
@@ -80,10 +202,58 @@ class Survey extends MY_Controller
 		$this->load->view('detil_responden', $data);
 	}
 
+	public function modal_data(){
+		$id = $_POST['id'];
+		$data_bidang_instansi = $this->db->query("SELECT tb_bidang_instansi.*,tb_loket.nama_loket from tb_bidang_instansi
+							 join tb_loket on tb_loket.id_loket = tb_bidang_instansi.instansi_id where instansi_id ='$id'")->result();
+		$output = '';
+		$no = 1;
+		foreach ($data_bidang_instansi as $row) {
+			$jml = $this->db->query("SELECT * FROM tb_detil_responden where bidang_instansi_id='$row->bidang_instansi_id'");
+			$jml_res = $jml->num_rows();
+			$q_total_soal = $this->db->query("SELECT * FROM tb_pertanyaan");
+										$total_soal = $q_total_soal->num_rows();
+										$nilai_persentase = $this->db->query("SELECT tb_hasil.*,tb_detil_responden.bidang_instansi_id FROM tb_hasil join tb_detil_responden on tb_detil_responden.id = tb_hasil.detail_responden_id where bidang_instansi_id='$row->bidang_instansi_id'")->result();
+										$total = 0;
+										$x = 1;
+										foreach ($nilai_persentase as $n) {
+											if ($n->jawaban == 'd') {
+												$n = 4;;
+											} else if ($n->jawaban == 'c') {
+												$n = 3;
+											} else if ($n->jawaban == 'b') {
+												$n = 2;
+											} else {
+												$n = 1;
+											}
+											$nilai[$x] = [
+												'jawaban' => $n
+											];
+											$total += $nilai[$x]['jawaban'];
+											$x++;
+										}
+										$nilai_max = $total_soal * 4 * $jml_res;
+										if ($jml_res > 0) {
+											$hasil = round(($total/$nilai_max)*100,2).' %';
+										 } else {
+											$hasil = '0 %' ;
+										} 
+			$output .= '
+					<tr>
+						<th scope="row">'.$no++.'</th>
+						<td>'.$row->nama_bidang_instansi.'</td>
+						<td>'.$jml_res.'</td>
+						<td>'.$hasil.'</td>
+					</tr>     
+              ';
+		}
+		echo $output;
+	}
+
 	public function pertanyaan()
 	{
 		$responden = $this->input->post('id_responden');
-		$bidang_instansi_id = $this->input->post('id_responden');
+		$bidang_instansi_id = $this->input->post('bidang_instansi_id');
 		$id_detil = uniqid(12);
 
 		$cek = $this->M_survey->cekResponden(
@@ -427,7 +597,7 @@ class Survey extends MY_Controller
 			$this->session->set_userdata('ses_user', $user->username);
 			$this->session->set_userdata('ses_id', $user->id_admin);
 			$this->session->set_userdata('ses_disp', $user->display);
-			redirect('admin', 'refresh');
+			redirect('home', 'refresh');
 		} else {
 			$this->session->set_flashdata('error', 'username atau password salah');
 			redirect('satpam', 'refresh');

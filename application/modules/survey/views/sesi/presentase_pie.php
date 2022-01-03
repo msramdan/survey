@@ -1,4 +1,4 @@
-<section style="background-color: #192965; color: white; padding: 15px;" >
+<section style="background-color: #006600E6; color: white; padding: 15px;" >
 	<div class="container">
 		<div class="row content">
 			<div class="col-md-6 order-1 order-md-2" data-aos="fade-left" style="background-color: white; border-radius: 5px;">

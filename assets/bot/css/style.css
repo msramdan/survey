@@ -126,7 +126,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header.header-scrolled {
-  background: rgba(1, 4, 136, 0.9);
+  background: rgb(0, 51, 0);
   height: 60px;
 }
 
@@ -239,7 +239,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   font-weight: 500;
   text-transform: none;
-  color: #01036f;
+  color: #003300;
 }
 
 .nav-menu .drop-down ul a:hover, .nav-menu .drop-down ul .active > a, .nav-menu .drop-down ul li:hover > a {
@@ -331,7 +331,7 @@ h1, h2, h3, h4, h5, h6 {
 .mobile-nav a {
   display: block;
   position: relative;
-  color: #01036f;
+  color: #006600;
   padding: 10px 20px;
   font-weight: 500;
   outline: none;
@@ -374,7 +374,7 @@ h1, h2, h3, h4, h5, h6 {
   top: 0;
   left: 0;
   position: fixed;
-  background: rgba(13, 18, 252, 0.6);
+  background: rgba(0, 153, 51, 0.9);
   overflow: hidden;
   display: none;
   transition: ease-in-out 0.2s;
@@ -405,7 +405,7 @@ h1, h2, h3, h4, h5, h6 {
 
 #hero:before {
   content: "";
-  background: rgba(2, 5, 161, 0.91);
+  background: rgba(0, 102, 0, 0.9);
   position: absolute;
   bottom: 0;
   top: 0;
@@ -602,7 +602,7 @@ section {
 }
 
 .section-bg {
-  background-color: #f5f5ff;
+  background-color: #eafaea;
 }
 
 .section-title {
@@ -637,7 +637,7 @@ section {
   font-weight: 700;
   text-transform: uppercase;
   font-family: "Poppins", sans-serif;
-  color: #010483;
+  color: #009933;
 }
 
 /*--------------------------------------------------------------
@@ -645,7 +645,7 @@ section {
 --------------------------------------------------------------*/
 .breadcrumbs {
   padding: 20px 0;
-  background-color: #fafaff;
+  background-color: #c6ecc6;
   min-height: 40px;
   margin-top: 80px;
 }
@@ -710,7 +710,7 @@ section {
 .about .icon-boxes h3 {
   font-size: 28px;
   font-weight: 700;
-  color: #010483;
+  color: #006600;
   margin-bottom: 15px;
 }
 
@@ -775,7 +775,7 @@ section {
 .about .play-btn {
   width: 94px;
   height: 94px;
-  background: radial-gradient(#3f43fd 50%, rgba(63, 67, 253, 0.4) 52%);
+  background: radial-gradient(#339933 50%, rgba(0, 102, 0, 0.4)) 52%);
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -823,7 +823,7 @@ section {
 }
 
 .about .play-btn:hover::after {
-  border-left: 15px solid #3f43fd;
+  border-left: 15px solid #339933;
   transform: scale(20);
 }
 
@@ -874,7 +874,7 @@ section {
   display: flex;
   align-items: center;
   padding: 20px;
-  background: #f5f5ff;
+  background: #d8f3d8;
   transition: ease-in-out 0.3s;
 }
 
@@ -893,23 +893,23 @@ section {
 }
 
 .features .icon-box h3 a {
-  color: #010483;
+  color: #006600;
   transition: ease-in-out 0.3s;
 }
 
 .features .icon-box h3 a:hover {
-  color: #01036f;
+  color: #006600;
 }
 
 .features .icon-box:hover {
-  background: #ebebff;
+  background: #c6ecc6;
 }
 
 /*--------------------------------------------------------------
 # Counts
 --------------------------------------------------------------*/
 .counts {
-  background: #f5f5ff;
+  background: #d9f2d9;
   padding: 70px 0 60px;
 }
 
@@ -937,7 +937,7 @@ section {
   font-size: 36px;
   display: block;
   font-weight: 600;
-  color: #010483;
+  color: #006600;
 }
 
 .counts .count-box p {
@@ -957,7 +957,7 @@ section {
 .details .content h3 {
   font-weight: 600;
   font-size: 26px;
-  color: #010483;
+  color: #006600;
 }
 
 .details .content ul {
@@ -1152,7 +1152,7 @@ section {
   display: block;
   width: 50px;
   height: 1px;
-  background: #0d12fc;
+  background: #339933;
   bottom: 0;
   left: calc(50% - 25px);
 }
@@ -1161,7 +1161,7 @@ section {
   font-style: italic;
   display: block;
   font-size: 13px;
-  color: #01036f;
+  color: #006600;
 }
 
 .team .member .social {
@@ -1170,7 +1170,7 @@ section {
 
 .team .member .social a {
   transition: color 0.3s;
-  color: #01036f;
+  color: #003300;
 }
 
 .team .member .social a:hover {
@@ -1382,11 +1382,11 @@ section {
 
 .contact .info i {
   font-size: 20px;
-  color: #3f43fd;
+  color: #339933;
   float: left;
   width: 44px;
   height: 44px;
-  background: #f0f0ff;
+  background: #d9f2e6;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1399,14 +1399,14 @@ section {
   font-size: 22px;
   font-weight: 600;
   margin-bottom: 5px;
-  color: #010483;
+  color: #006600;
 }
 
 .contact .info p {
   padding: 0 0 0 60px;
   margin-bottom: 0;
   font-size: 14px;
-  color: #0205a1;
+  color: #006600;
 }
 
 .contact .info .email, .contact .info .phone {
@@ -1526,7 +1526,7 @@ section {
 # Footer
 --------------------------------------------------------------*/
 #footer {
-  background: #010351;
+  background: #003300;
   padding: 0 0 30px 0;
   color: #fff;
   font-size: 14px;
@@ -1538,7 +1538,7 @@ section {
 
 #footer .footer-top .footer-info {
   margin-bottom: 15px;
-  background: #010246;
+  background: #006600;
   color: #fff;
   border-top: 4px solid #1acc8d;
   text-align: center;

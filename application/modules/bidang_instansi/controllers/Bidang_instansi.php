@@ -236,6 +236,26 @@ class Bidang_instansi extends MY_Controller {
 		return $kepuasan;
 	}
 
+	public function pdf($bidang_instansi_id,$dari=null,$ke =null)
+	{
+		$this->load->library('dompdf_gen');
+		$data = [
+			'bidang_instansi_id'			=> $bidang_instansi_id,
+			'dari'			=> $dari,
+			'ke'			=> $ke,
+		];
+		$this->load->view('pdf', $data);
+		$paper_size = 'A4';
+		$orientation = 'portrait';
+		$html = $this->output->get_output();
+		$this->dompdf->set_paper($paper_size, $orientation);
+
+		$this->dompdf->load_html($html);
+		$this->dompdf->render();
+		$this->dompdf->stream("laporan_bidang_instansi.pdf", array('Attachment' => 0));
+	}
+
+
 }
 
 /* End of file bidang_instansi.php */

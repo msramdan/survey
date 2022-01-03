@@ -74,6 +74,7 @@
 						<th class="text-left" >Kategori Instansi</th>
 						<th class="text-left" >Jumlah Responden</th>
 						<th class="text-left" >Kepuasan (%)</th>
+						<th class="text-left" >Cetak Laporan</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -197,6 +198,7 @@
 							
 							?>
 							<td><a style="color: black;"><?php echo  round($total_instansi, 2)  ?> %</a></td>
+							<td><a href="" style="color: black;" target="_blank"><i class="fa fa-print"></i> Cetak</a></td>
 						</tr>
 					<?php endforeach ?>
 				</tbody>

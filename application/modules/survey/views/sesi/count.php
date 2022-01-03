@@ -7,7 +7,7 @@
   <div class="container">
     <div class="section-title" data-aos="fade-up">
       <h2>Statistik Pelayanan</h2>
-      <p>Data Pelayanan</p>
+      <p>Pemerintah Kota TUAL</p>
     </div>
 
     <div class="row" data-aos="fade-up">
@@ -28,20 +28,11 @@
           <p>Total Responden</p>
         </div>
       </div>
-
-<!--       <div class="col-lg-4 col-md-6 mt-5 mt-md-0">
-        <div class="count-box boxc">
-          <i class="icofont-document-folder"></i>
-          <span data-toggle="counter-up">521</span>
-          <p>Jumlah Pengajuan</p>
-        </div>
-      </div>
- -->
       <div class="col-lg-4 col-md-6 mt-5 mt-lg-0">
         <div class="count-box boxc">
           <i class="icofont-live-support"></i>
           <span data-toggle="counter-up"><?php echo $loket ?></span>
-          <p>Total Loket Pelayanan</p>
+          <p>Total Instansi PEMDA</p>
         </div>
       </div>
     </div>
